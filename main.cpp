@@ -20,6 +20,8 @@ bool menu(Users &user);
 
 int main()
 {
+    using std::cout;
+
     std::string login;
     bool isAuthoriz{ true };
     bool isProcMenu{ true };
@@ -27,20 +29,20 @@ int main()
     while (isAuthoriz)
     {
         system("cls");
-        std::cout << "\tAuthorization\n";
-        std::cout << "If you didn't sign up, enter ";
+        cout << "\tAuthorization\n";
+        cout << "If you didn't sign up, enter ";
         cRed; 
-        std::cout << "'sign up'"; 
+        cout << "'sign up'"; 
         cWhite;
-        std::cout << ".\n" << "If you already have acount, enter ";
+        cout << ".\n" << "If you already have acount, enter ";
         cRed;
-        std::cout << "'log in'"; 
+        cout << "'log in'"; 
         cWhite;
-        std::cout << "Or you can leave. Enter ";
+        cout << "Or you can leave. Enter ";
         cRed;
-        std::cout << "'exit'"; 
+        cout << "'exit'"; 
         cWhite;
-        std::cout << " for it.\n\n>> ";
+        cout << " for it.\n\n>> ";
 
         std::string choise;
         std::getline(std::cin, choise, '\n');
@@ -75,6 +77,8 @@ int main()
 
 void GetItem(Users &user)
 {
+    using std::cout, std::cin;
+
     std::string fName = "products.txt";
     Items* list = readFileInList(fName);
     int size = getLength(fName);
@@ -84,17 +88,17 @@ void GetItem(Users &user)
 
     while (isChoising)
     {
-        std::cout << "Choise a product:\n";
+        cout << "Choise a product:\n";
         showList(list, size);
-        std::cout << "Your balance: " << user.GetMoney() << "\n";
-        std::cout << "\nEnter an index and quantity ('-1' for back): ";
+        cout << "Your balance: " << user.GetMoney() << "\n";
+        cout << "\nEnter an index and quantity ('-1' for back): ";
 
         bool isEntered{ true };
         bool wasBuy{ false };
 
         while (isEntered)
         {
-            std::cin >> id;
+            cin >> id;
             if (id == -1)
             {
                 isEntered = false;
@@ -102,14 +106,14 @@ void GetItem(Users &user)
             }
             else 
             {
-                std::cin >> quantity;
+                cin >> quantity;
                 id--;
                 if (id < 0 || id > size)
-                    std::cout << "Invalid id!\n";
+                    cout << "Invalid id!\n";
                 else if (quantity > list[id].getCount())
-                    std::cout << "Invalid quantity!\n";
+                    cout << "Invalid quantity!\n";
                 else if (user.GetMoney() < quantity * list[id].getPrice())
-                    std::cout << "You don't have anough money!\n";
+                    cout << "You don't have anough money!\n";
                 else
                 {
                     isEntered = false;
@@ -122,9 +126,9 @@ void GetItem(Users &user)
         {
             list[id].setCount(list[id].getCount() - quantity);
             user.setMoney(user.GetMoney() - quantity * list[id].getPrice());
-            std::cout << "You have successfully purchased the product. Do you want to buy anything else?\n";
+            cout << "You have successfully purchased the product. Do you want to buy anything else?\n";
             std::string YesOrNo;
-            std::cin >> YesOrNo;
+            cin >> YesOrNo;
 
             if (YesOrNo == "no" || YesOrNo == "No")
                 isChoising = false;
@@ -147,56 +151,58 @@ void showInfo(Users user)
 
 void editProfile(Users &user)
 {
+    using std::cout, std::cin;
+
     bool isProc{ true };
     while (isProc)
     {
         system("cls");
         showInfo(user);
 
-        std::cout << "Enter ";
+        cout << "Enter ";
         cRed;
-        std::cout << "'Login'";
+        cout << "'Login'";
         cWhite;;
-        std::cout << " for change your login.\n";
-        std::cout << "Enter ";
+        cout << " for change your login.\n";
+        cout << "Enter ";
         cRed;
-        std::cout << "'Name'";
+        cout << "'Name'";
         cWhite;
-        std::cout << " for change your name.\n";
-        std::cout << "Enter ";
+        cout << " for change your name.\n";
+        cout << "Enter ";
         cRed;
-        std::cout << "'Balance'";
+        cout << "'Balance'";
         cWhite;
-        std::cout << " for change your balance.\n";
-        std::cout << "Enter ";
+        cout << " for change your balance.\n";
+        cout << "Enter ";
         cRed;
-        std::cout << "'Back'";
+        cout << "'Back'";
         cWhite;
-        std::cout << " for back.\n";
+        cout << " for back.\n";
         std::string choise;
-        std::cout << ">> ";
-        std::cin >> choise;
+        cout << ">> ";
+        cin >> choise;
 
         if (choise == "Login" || choise == "login")
         {
             std::string login;
-            std::cout << "Enter a new login: ";
-            std::cin >> login;
+            cout << "Enter a new login: ";
+            cin >> login;
             user.setLogin(login);
             user.rewriteUserInfo();
         }
         else if (choise == "Name" || choise == "name")
         {
             std::string name;
-            std::cout << "Enter a new name: ";
-            std::cin >> name;
+            cout << "Enter a new name: ";
+            cin >> name;
             user.setName(name);
         }
         else if (choise == "balance" || choise == "Balance")
         {
             float balance;
-            std::cout << "Enter a new balance: ";
-            std::cin >> balance;
+            cout << "Enter a new balance: ";
+            cin >> balance;
             user.setMoney(balance);
         }
         else if (choise == "Back" || choise == "back")
@@ -205,32 +211,34 @@ void editProfile(Users &user)
 }
 void Profile(Users &user)
 {
+    using std::cout, std::cin;
+
     bool isProc{ true };
     while (isProc)
     {
         showInfo(user);
 
-        std::cout << "If you want to change anything, please, enter ";
+        cout << "If you want to change anything, please, enter ";
         cRed;
-        std::cout << "'Edit'\n";
+        cout << "'Edit'\n";
         cWhite;
-        std::cout << "If you want to change your password, please, enter ";
+        cout << "If you want to change your password, please, enter ";
         cRed;
-        std::cout << "'pass'\n";
+        cout << "'pass'\n";
         cWhite;
-        std::cout << "if you want to back to main menu, please, enter ";
+        cout << "if you want to back to main menu, please, enter ";
         cRed;
-        std::cout << "'Back'\n";
+        cout << "'Back'\n";
         cWhite;
         
-        std::cout << ">> ";
+        cout << ">> ";
         std::string choise;
-        std::cin >> choise;
+        cin >> choise;
         
         if(choise == "edit" || choise == "Edit")
             editProfile(user);
         else if(choise == "pass" || choise == "Pass")
-            std::cout << "editing";                    // edit pass
+            cout << "editing";                           // edit pass
         else if(choise == "back" || choise == "Back");
             isProc = false;
 
