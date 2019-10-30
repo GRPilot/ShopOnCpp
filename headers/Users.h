@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <map>
+#include "Hash.h"
+#include "Authorization.h"
 
 const std::string g_fUsers = "Users.txt";
 const std::string g_fUsersInfo = "UserInfo.txt";
@@ -44,6 +45,7 @@ public:
     void setName(std::string outName)   { Name = outName; }
     void setStat(std::string outStatus) { status = outStatus; }
     void setMoney(float outMoney)       { money = outMoney; }
+    void setNewPass();
 
     void rewriteUserInfo();
     void saveUserInFiles(std::string pass);
@@ -91,7 +93,6 @@ void Users::saveUserInFiles(std::string pass)
     usersFile.close();
 
     std::ofstream usersInfo(g_fUsersInfo, std::ios::app);
-    usersInfo << std::endl;
     usersInfo << "# " << Login << std::endl;
     usersInfo << "Status: " << status << std::endl;
     usersInfo << "Name: " << Name << std::endl;
@@ -176,4 +177,57 @@ void Users::setLogin(std::string outLogin)
     }
     delete [] buffLog;
     delete [] buffPass;  
+}
+
+void Users::setNewPass()
+{
+    using std::string;
+
+    std::ifstream readFile(g_fUsers);   
+    int numberOfUsers = getNumberOfUsers();
+    string* logins = new string[numberOfUsers];
+    string* passwords = new string[numberOfUsers];
+
+    for (int i = 0; i < numberOfUsers; ++i)
+    {
+        readFile >> logins[i];
+        readFile >> passwords[i];
+    }
+    readFile.close();
+
+    int idRewtirenUser{};
+    for (int i = 0; i < numberOfUsers; i++)
+        if(logins[i] == this->Login)
+            idRewtirenUser = i;
+
+    string oldPass;
+    do
+    {
+        std::cout << "Enter old password: ";
+        std::cin >> oldPass;
+        oldPass = myHash::code(oldPass);
+    } while (oldPass != passwords[idRewtirenUser]);
+    
+    string newPass, newPass2;
+    do
+    {
+        std::cout << "Enter new password: ";
+        std::cin >> newPass;
+        std::cout << "Enter new password again: ";
+        std::cin >> newPass2;
+        if (newPass != newPass2)
+            std::cout << "Passwords are not equal!\n";
+    } while (newPass != newPass2);
+    
+    passwords[idRewtirenUser] = myHash::code(newPass);
+
+    std::ofstream writeFile(g_fUsers);
+
+    for (int i = 0; i < numberOfUsers; i++)
+        writeFile << logins[i] << ' ' << passwords[i] << std::endl;
+    
+    writeFile.close();
+
+    delete [] logins;
+    delete [] passwords;
 }

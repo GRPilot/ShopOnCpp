@@ -77,7 +77,8 @@ int main()
 
 void GetItem(Users &user)
 {
-    using std::cout, std::cin;
+    using std::cout;
+    using std::cin;
 
     std::string fName = "products.txt";
     Items* list = readFileInList(fName);
@@ -151,7 +152,8 @@ void showInfo(Users user)
 
 void editProfile(Users &user)
 {
-    using std::cout, std::cin;
+    using std::cout;
+    using std::cin;
 
     bool isProc{ true };
     while (isProc)
@@ -211,7 +213,8 @@ void editProfile(Users &user)
 }
 void Profile(Users &user)
 {
-    using std::cout, std::cin;
+    using std::cout;
+    using std::cin;
 
     bool isProc{ true };
     while (isProc)
@@ -238,7 +241,7 @@ void Profile(Users &user)
         if(choise == "edit" || choise == "Edit")
             editProfile(user);
         else if(choise == "pass" || choise == "Pass")
-            cout << "editing";                           // edit pass
+            user.setNewPass();                           // edit pass
         else if(choise == "back" || choise == "Back");
             isProc = false;
 

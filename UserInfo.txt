@@ -1,20 +1,9 @@
+
 # Gollan
-Status: Admin
-Name: Denis
-Money: 5000.3
-# user1
 Status: user
-Name: Pidor
-Money: 1000
-# user3
-Status: user
-Name: 3user
-Money: 100
-# user4
-Status: user
-Name: pass4
+Name: Ruslan
 Money 0
-# ReQuesT
+# Denis
 Status: user
 Name: Denis
 Money 0

@@ -1,18 +1,10 @@
 #pragma once 
 
 #include <iostream>
+#include "Hash.h"
 #include <fstream>
 #include "Users.h"
 
-std::string decode(std::string pass)
-{
-    return pass;
-}
-
-std::string code(std::string pass)
-{
-    return pass;
-}
 
 void regist()
 {
@@ -43,7 +35,7 @@ void regist()
         else
             std::cout << "Passwords should be bigger than 4 symbols and equal!\n\n";
     }
-
+    pass1 = myHash::code(pass1);
     newUser.saveUserInFiles(pass1);
 }
 
@@ -58,6 +50,7 @@ bool authoriz(std::string login)
     //TODO: make a silent entering
     std::string password;
     std::cin >> password;
+    password = myHash::code(password);
 
     std::ifstream file("Users.txt");
 
@@ -72,7 +65,7 @@ bool authoriz(std::string login)
         std::string f_login;
         std::string f_pass;
         file >> f_login >> f_pass;
-        if (login == f_login && password == decode(f_pass))
+        if (login == f_login && password == f_pass)
         {
             file.close();
             return true;
